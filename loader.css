@@ -1,0 +1,4 @@
+div[data-file], div[data-eval] {
+  min-height: 50px;
+  background: url('loader.gif') no-repeat 50% 50%;
+}
