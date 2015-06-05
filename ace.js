@@ -19,15 +19,16 @@
   }
 
   Ace.load = function(resources) {
-    var attr, load, postLoad, _i, _len, _ref1;
+    var attr, code, load, postLoad, _i, _len, _ref1;
     console.log("Ace.load");
     _ref1 = Ace.ResourceContainers.getAttributes();
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       attr = _ref1[_i];
       if (!resources.find(attr.url)) {
+        code = attr.code ? attr.code.split("\\n").join("\n") : null;
         resources.add({
           url: attr.url,
-          source: attr.code
+          source: code
         });
       }
     }

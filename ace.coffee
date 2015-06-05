@@ -10,7 +10,8 @@ Ace.load = (resources) ->
     # Add <div data-file='...'> resources unless the resource is already loaded (via resources.coffee).
     for attr in Ace.ResourceContainers.getAttributes()
         unless resources.find(attr.url)
-            resources.add(url: attr.url, source: attr.code)
+            code = if attr.code then attr.code.split("\\n").join("\n") else null
+            resources.add(url: attr.url, source: code)
     
     load = (r, loaded) =>
         # r is Ace editor resources (see Ace.Resources)
