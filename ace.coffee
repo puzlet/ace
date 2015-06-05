@@ -8,8 +8,9 @@ Ace.load = (resources) ->
     console.log "Ace.load"
     
     # Add <div data-file='...'> resources unless the resource is already loaded (via resources.coffee).
-    for filename in Ace.ResourceContainers.getFilenames()
-        resources.add(url: filename) unless resources.find(filename)
+    for attr in Ace.ResourceContainers.getAttributes()
+        unless resources.find(attr.url)
+            resources.add(url: attr.url, source: attr.code)
     
     load = (r, loaded) =>
         # r is Ace editor resources (see Ace.Resources)
@@ -27,11 +28,12 @@ class Ace.ResourceContainers
     # <div> attribute names for source and eval nodes. 
     fileContainerAttr = "data-file"
     evalContainerAttr = "data-eval"
+    sourceAttr = "data-code"
     
-    @getFilenames: ->
+    @getAttributes: ->
         # Find all <div data-file='...'>
         divs = $("div[#{fileContainerAttr}]")
-        urls = ($(div).attr(fileContainerAttr) for div in divs)
+        ({url: $(div).attr(fileContainerAttr), code: $(div).attr(sourceAttr)} for div in divs)
         
     constructor: (@resource) ->
         @url = @resource.url
@@ -46,6 +48,8 @@ class Ace.ResourceContainers
         @resource.compile?()
     
     render: ->
+        @files().addClass "loaded"
+        @evals().addClass "loaded"
         @fileNodes = (new Ace.EditorNode $(node), @resource for node in @files())
         @evalNodes = (new Ace.EvalNode $(node), @resource, @fileNodes[idx] for node, idx in @evals())
         $pz.codeNode ?= {}

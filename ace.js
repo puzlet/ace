@@ -19,14 +19,15 @@
   }
 
   Ace.load = function(resources) {
-    var filename, load, postLoad, _i, _len, _ref1;
+    var attr, load, postLoad, _i, _len, _ref1;
     console.log("Ace.load");
-    _ref1 = Ace.ResourceContainers.getFilenames();
+    _ref1 = Ace.ResourceContainers.getAttributes();
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-      filename = _ref1[_i];
-      if (!resources.find(filename)) {
+      attr = _ref1[_i];
+      if (!resources.find(attr.url)) {
         resources.add({
-          url: filename
+          url: attr.url,
+          source: attr.code
         });
       }
     }
@@ -52,24 +53,26 @@
   };
 
   Ace.ResourceContainers = (function() {
-    var evalContainerAttr, fileContainerAttr;
+    var evalContainerAttr, fileContainerAttr, sourceAttr;
 
     fileContainerAttr = "data-file";
 
     evalContainerAttr = "data-eval";
 
-    ResourceContainers.getFilenames = function() {
-      var div, divs, urls;
+    sourceAttr = "data-code";
+
+    ResourceContainers.getAttributes = function() {
+      var div, divs, _i, _len, _results;
       divs = $("div[" + fileContainerAttr + "]");
-      return urls = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = divs.length; _i < _len; _i++) {
-          div = divs[_i];
-          _results.push($(div).attr(fileContainerAttr));
-        }
-        return _results;
-      })();
+      _results = [];
+      for (_i = 0, _len = divs.length; _i < _len; _i++) {
+        div = divs[_i];
+        _results.push({
+          url: $(div).attr(fileContainerAttr),
+          code: $(div).attr(sourceAttr)
+        });
+      }
+      return _results;
     };
 
     function ResourceContainers(resource) {
@@ -94,6 +97,8 @@
 
     ResourceContainers.prototype.render = function() {
       var file, idx, node, _i, _len, _ref1, _results;
+      this.files().addClass("loaded");
+      this.evals().addClass("loaded");
       this.fileNodes = (function() {
         var _i, _len, _ref1, _results;
         _ref1 = this.files();
