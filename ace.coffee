@@ -45,7 +45,7 @@ class Ace.ResourceContainers
         # Set to eval mode (rather than regular compile) if editor has associated eval box.
         @resource.setEval?(@hasEval())  # Only for coffee
         # Compile, using mathCoffee compiler (if loaded) for coffee node.
-        @resource.setMathSpec?()  # Only for coffee
+        #@resource.setMathSpec?()  # Only for coffee
         @resource.compile?()
     
     render: ->
