@@ -2,10 +2,22 @@ Ace = {}
 window.$Ace = Ace
 console.log "Ace module"
 $blab?.resources?.onPostLoad -> Ace.load($blab.resources)
-        
+
+Ace.currentCoffeeResource = null  # Set by preCompileCoffee event handler (below)
+
+Ace.evalContainer = (resource = Ace.currentCoffeeResource) ->
+  resource: resource
+  container: resource?.containers?.getEvalContainer()
+  find: (str) -> resource?.compiler.findStr str
+  
+Ace.evalRemove = (sel, resource = Ace.currentCoffeeResource) ->
+  resource?.containers.evalRemove sel
+
 Ace.load = (resources) ->
     
     console.log "Ace.load"
+    
+    $(document).on "preCompileCoffee", (ev, data) -> Ace.currentCoffeeResource = data.resource
     
     # Add <div data-file='...'> resources unless the resource is already loaded (via resources.coffee).
     for attr in Ace.ResourceContainers.getAttributes()
@@ -60,6 +72,8 @@ class Ace.ResourceContainers
         # Get eval container if there is one (and only one).
         return null unless @evalNodes?.length is 1
         @evalNodes[0].container
+        
+    evalRemove: (sel) -> @getEvalContainer()?.find(sel).remove()
         
     setEditorContent: (content) ->
         triggerChange = false
@@ -187,8 +201,6 @@ class Ace.EvalNode extends Ace.Node
 		#console.log "-----RESULT", @resource.result
 		#resultStr = @resource.result?.join("\n")
 		@editor.set @resource.resultStr
-	
-
 
 class Ace.Editor
 	

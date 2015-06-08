@@ -18,9 +18,35 @@
     }
   }
 
+  Ace.currentCoffeeResource = null;
+
+  Ace.evalContainer = function(resource) {
+    var _ref1;
+    if (resource == null) {
+      resource = Ace.currentCoffeeResource;
+    }
+    return {
+      resource: resource,
+      container: resource != null ? (_ref1 = resource.containers) != null ? _ref1.getEvalContainer() : void 0 : void 0,
+      find: function(str) {
+        return resource != null ? resource.compiler.findStr(str) : void 0;
+      }
+    };
+  };
+
+  Ace.evalRemove = function(sel, resource) {
+    if (resource == null) {
+      resource = Ace.currentCoffeeResource;
+    }
+    return resource != null ? resource.containers.evalRemove(sel) : void 0;
+  };
+
   Ace.load = function(resources) {
     var attr, code, load, postLoad, _i, _len, _ref1;
     console.log("Ace.load");
+    $(document).on("preCompileCoffee", function(ev, data) {
+      return Ace.currentCoffeeResource = data.resource;
+    });
     _ref1 = Ace.ResourceContainers.getAttributes();
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       attr = _ref1[_i];
@@ -77,7 +103,7 @@
     };
 
     function ResourceContainers(resource) {
-      var _base, _base1, _base2;
+      var _base, _base1;
       this.resource = resource;
       this.url = this.resource.url;
       if (!this.hasDiv()) {
@@ -88,11 +114,8 @@
       if (typeof (_base = this.resource).setEval === "function") {
         _base.setEval(this.hasEval());
       }
-      if (typeof (_base1 = this.resource).setMathSpec === "function") {
-        _base1.setMathSpec();
-      }
-      if (typeof (_base2 = this.resource).compile === "function") {
-        _base2.compile();
+      if (typeof (_base1 = this.resource).compile === "function") {
+        _base1.compile();
       }
     }
 
@@ -138,6 +161,11 @@
         return null;
       }
       return this.evalNodes[0].container;
+    };
+
+    ResourceContainers.prototype.evalRemove = function(sel) {
+      var _ref1;
+      return (_ref1 = this.getEvalContainer()) != null ? _ref1.find(sel).remove() : void 0;
     };
 
     ResourceContainers.prototype.setEditorContent = function(content) {
