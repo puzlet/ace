@@ -1,7 +1,7 @@
 Ace = {}
 window.$Ace = Ace
 console.log "Ace module"
-$blab?.resources?.onPostLoad -> Ace.load($blab.resources)
+$blab?.resources?.on "postload", -> Ace.load($blab.resources)
 
 Ace.currentCoffeeResource = null  # Set by preCompileCoffee event handler (below)
 
@@ -29,9 +29,11 @@ Ace.load = (resources) ->
         # r is Ace editor resources (see Ace.Resources)
         resources.add r
         resources.loadUnloaded => loaded()
-        
+    
     postLoad = ->
         new Ace.ResourceContainers(resource) for resource in resources.resources
+          
+    # TODO: Remove @resource.containers = this (below)
     
     new Ace.Resources load, postLoad
 
@@ -59,6 +61,8 @@ class Ace.ResourceContainers
         # Compile, using mathCoffee compiler (if loaded) for coffee node.
         #@resource.setMathSpec?()  # Only for coffee
         @resource.compile?()
+        
+        $(document).on "preSaveResources", => @updateResource()  # Event from github.coffee
     
     render: ->
         @files().addClass "loaded"
@@ -85,12 +89,10 @@ class Ace.ResourceContainers
             node.setCode(triggerChange) unless node.editor.id is editor.id
         
     updateResource: ->
-        return unless @fileNodes.length
+        return unless @resource.edited and @fileNodes?.length
         console.log "Multiple editor nodes for resource.  Updating resource from only first editor node.", @resource if @fileNodes.length>1
         @resource.update(@fileNodes[0].code())
-        #console.log "Potential update issue because more than one editor for a resource", @resource if @fileNodes.length>1
-        #for fileNode in @fileNodes
-        #   @resource.update(fileNode.code())
+        console.log "Resource #{@url} updated from editor node"
     
     files: -> $("div[#{fileContainerAttr}='#{@url}']")
     

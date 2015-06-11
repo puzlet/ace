@@ -12,7 +12,7 @@
 
   if (typeof $blab !== "undefined" && $blab !== null) {
     if ((_ref = $blab.resources) != null) {
-      _ref.onPostLoad(function() {
+      _ref.on("postload", function() {
         return Ace.load($blab.resources);
       });
     }
@@ -117,6 +117,11 @@
       if (typeof (_base1 = this.resource).compile === "function") {
         _base1.compile();
       }
+      $(document).on("preSaveResources", (function(_this) {
+        return function() {
+          return _this.updateResource();
+        };
+      })(this));
     }
 
     ResourceContainers.prototype.render = function() {
@@ -197,13 +202,15 @@
     };
 
     ResourceContainers.prototype.updateResource = function() {
-      if (!this.fileNodes.length) {
+      var _ref1;
+      if (!(this.resource.edited && ((_ref1 = this.fileNodes) != null ? _ref1.length : void 0))) {
         return;
       }
       if (this.fileNodes.length > 1) {
         console.log("Multiple editor nodes for resource.  Updating resource from only first editor node.", this.resource);
       }
-      return this.resource.update(this.fileNodes[0].code());
+      this.resource.update(this.fileNodes[0].code());
+      return console.log("Resource " + this.url + " updated from editor node");
     };
 
     ResourceContainers.prototype.files = function() {
