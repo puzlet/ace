@@ -25,20 +25,25 @@
     if (resource == null) {
       resource = Ace.currentCoffeeResource;
     }
+    if (!resource) {
+      return;
+    }
     return {
       resource: resource,
       container: resource != null ? (_ref1 = resource.containers) != null ? _ref1.getEvalContainer() : void 0 : void 0,
       find: function(str) {
-        return resource != null ? resource.compiler.findStr(str) : void 0;
+        var _ref2;
+        return resource != null ? (_ref2 = resource.compiler) != null ? typeof _ref2.findStr === "function" ? _ref2.findStr(str) : void 0 : void 0 : void 0;
       }
     };
   };
 
   Ace.evalRemove = function(sel, resource) {
+    var _ref1;
     if (resource == null) {
       resource = Ace.currentCoffeeResource;
     }
-    return resource != null ? resource.containers.evalRemove(sel) : void 0;
+    return resource != null ? (_ref1 = resource.containers) != null ? typeof _ref1.evalRemove === "function" ? _ref1.evalRemove(sel) : void 0 : void 0 : void 0;
   };
 
   Ace.load = function(resources) {
@@ -114,8 +119,10 @@
       if (typeof (_base = this.resource).setEval === "function") {
         _base.setEval(this.hasEval());
       }
-      if (typeof (_base1 = this.resource).compile === "function") {
-        _base1.compile();
+      if (this.url !== "widgets.coffee") {
+        if (typeof (_base1 = this.resource).compile === "function") {
+          _base1.compile();
+        }
       }
       $(document).on("preSaveResources", (function(_this) {
         return function() {

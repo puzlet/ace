@@ -6,23 +6,27 @@ $blab?.resources?.on "postload", -> Ace.load($blab.resources)
 Ace.currentCoffeeResource = null  # Set by preCompileCoffee event handler (below)
 
 Ace.evalContainer = (resource = Ace.currentCoffeeResource) ->
+  #console.log "RESOURCE", resource.url
+  return unless resource
   resource: resource
   container: resource?.containers?.getEvalContainer()
-  find: (str) -> resource?.compiler.findStr str
+  find: (str) -> resource?.compiler?.findStr? str
   
 Ace.evalRemove = (sel, resource = Ace.currentCoffeeResource) ->
-  resource?.containers.evalRemove sel
+  resource?.containers?.evalRemove? sel
 
 Ace.load = (resources) ->
     
     console.log "Ace.load"
     
-    $(document).on "preCompileCoffee", (ev, data) -> Ace.currentCoffeeResource = data.resource
+    $(document).on "preCompileCoffee", (ev, data) ->
+      Ace.currentCoffeeResource = data.resource
     
     # Add <div data-file='...'> resources unless the resource is already loaded (via resources.coffee).
     for attr in Ace.ResourceContainers.getAttributes()
         unless resources.find(attr.url)
             code = if attr.code then attr.code.split("\\n").join("\n") else null
+            #return if attr.url is "widgets.coffee"  # ZZZ hack
             resources.add(url: attr.url, source: code)
     
     load = (r, loaded) =>
@@ -60,8 +64,8 @@ class Ace.ResourceContainers
         @resource.setEval?(@hasEval())  # Only for coffee
         # Compile, using mathCoffee compiler (if loaded) for coffee node.
         #@resource.setMathSpec?()  # Only for coffee
-        @resource.compile?()
-        
+        #console.log "file nodes", @url, @fileNodes
+        @resource.compile?() unless @url is "widgets.coffee"  # DEBUG 
         $(document).on "preSaveResources", => @updateResource()  # Event from github.coffee
     
     render: ->
