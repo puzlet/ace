@@ -47,7 +47,7 @@
   };
 
   Ace.load = function(resources) {
-    var attr, code, load, postLoad, _i, _len, _ref1;
+    var attr, code, exists, load, postLoad, _i, _len, _ref1;
     console.log("Ace.load");
     $(document).on("preCompileCoffee", function(ev, data) {
       return Ace.currentCoffeeResource = data.resource;
@@ -55,13 +55,15 @@
     _ref1 = Ace.ResourceContainers.getAttributes();
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       attr = _ref1[_i];
-      if (!resources.find(attr.url)) {
-        code = attr.code ? attr.code.split("\\n").join("\n") : null;
-        resources.add({
-          url: attr.url,
-          source: code
-        });
+      exists = resources.find(attr.url);
+      if (exists) {
+        continue;
       }
+      code = attr.code ? attr.code.split("\\n").join("\n") : null;
+      resources.add({
+        url: attr.url,
+        source: code
+      });
     }
     load = (function(_this) {
       return function(r, loaded) {
@@ -119,7 +121,7 @@
       if (typeof (_base = this.resource).setEval === "function") {
         _base.setEval(this.hasEval());
       }
-      if (this.url !== "widgets.coffee") {
+      if (!this.resource.compiled) {
         if (typeof (_base1 = this.resource).compile === "function") {
           _base1.compile();
         }

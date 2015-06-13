@@ -6,7 +6,6 @@ $blab?.resources?.on "postload", -> Ace.load($blab.resources)
 Ace.currentCoffeeResource = null  # Set by preCompileCoffee event handler (below)
 
 Ace.evalContainer = (resource = Ace.currentCoffeeResource) ->
-  #console.log "RESOURCE", resource.url
   return unless resource
   resource: resource
   container: resource?.containers?.getEvalContainer()
@@ -24,10 +23,10 @@ Ace.load = (resources) ->
     
     # Add <div data-file='...'> resources unless the resource is already loaded (via resources.coffee).
     for attr in Ace.ResourceContainers.getAttributes()
-        unless resources.find(attr.url)
-            code = if attr.code then attr.code.split("\\n").join("\n") else null
-            #return if attr.url is "widgets.coffee"  # ZZZ hack
-            resources.add(url: attr.url, source: code)
+        exists = resources.find(attr.url)
+        continue if exists
+        code = if attr.code then attr.code.split("\\n").join("\n") else null
+        resources.add(url: attr.url, source: code)
     
     load = (r, loaded) =>
         # r is Ace editor resources (see Ace.Resources)
@@ -64,8 +63,7 @@ class Ace.ResourceContainers
         @resource.setEval?(@hasEval())  # Only for coffee
         # Compile, using mathCoffee compiler (if loaded) for coffee node.
         #@resource.setMathSpec?()  # Only for coffee
-        #console.log "file nodes", @url, @fileNodes
-        @resource.compile?() unless @url is "widgets.coffee"  # DEBUG 
+        @resource.compile?() unless @resource.compiled
         $(document).on "preSaveResources", => @updateResource()  # Event from github.coffee
     
     render: ->
@@ -204,7 +202,6 @@ class Ace.EvalNode extends Ace.Node
 			@setCode() if data.url is @filename
 			
 	setCode: ->
-		#console.log "-----RESULT", @resource.result
 		#resultStr = @resource.result?.join("\n")
 		@editor.set @resource.resultStr
 
