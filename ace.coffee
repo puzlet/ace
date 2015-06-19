@@ -423,7 +423,7 @@ class Ace.Editor
 	initChangeListeners: ->
 		@enableChangeAction = true
 		changeAction = =>
-			@setHeight()  # Resize if code changed.
+			@setHeight() unless @spec.viewPort  # Resize if code changed.
 			code = @code()
 			#@spec.change? this
 			listener code for listener in @changeListeners

@@ -694,7 +694,9 @@
       changeAction = (function(_this) {
         return function() {
           var code, listener, _i, _len, _ref1, _results;
-          _this.setHeight();
+          if (!_this.spec.viewPort) {
+            _this.setHeight();
+          }
           code = _this.code();
           _ref1 = _this.changeListeners;
           _results = [];
