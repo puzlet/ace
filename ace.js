@@ -74,14 +74,13 @@
       };
     })(this);
     postLoad = function() {
-      var resource, _j, _len1, _ref2, _results;
+      var resource, _j, _len1, _ref2;
       _ref2 = resources.resources;
-      _results = [];
       for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
         resource = _ref2[_j];
-        _results.push(new Ace.ResourceContainers(resource));
+        new Ace.ResourceContainers(resource);
       }
-      return _results;
+      return $.event.trigger("aceFilesLoaded");
     };
     return new Ace.Resources(load, postLoad);
   };

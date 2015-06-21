@@ -35,6 +35,7 @@ Ace.load = (resources) ->
     
     postLoad = ->
         new Ace.ResourceContainers(resource) for resource in resources.resources
+        $.event.trigger "aceFilesLoaded"
           
     # TODO: Remove @resource.containers = this (below)
     
