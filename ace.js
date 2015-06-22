@@ -567,8 +567,12 @@
       height = endLine - startLine + 1;
       this.setHeight(height);
       if (startLine > 1) {
-        this.editor.gotoLine(startLine - 1);
-        this.editor.scrollToLine(startLine - 1);
+        setTimeout(((function(_this) {
+          return function() {
+            _this.editor.gotoLine(startLine - 1);
+            return _this.editor.scrollToLine(startLine - 1);
+          };
+        })(this)), 10);
       }
       lines = this.code().split("\n");
       numLines = lines.length;

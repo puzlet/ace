@@ -349,9 +349,11 @@ class Ace.Editor
 		
 		@setHeight height
 		if startLine>1
-			#console.log "startLine/endLine", @id, startLine, endLine
-			@editor.gotoLine startLine-1
-			@editor.scrollToLine startLine-1
+			# Timeout to fix issue with getting wrong scroll position after changing height.
+			setTimeout (=>
+				@editor.gotoLine startLine-1
+				@editor.scrollToLine startLine-1
+			), 10
 		lines = @code().split("\n")  # ZZZ dup code
 		numLines = lines.length
 		for line in [1..numLines]
