@@ -441,7 +441,7 @@ class Ace.Editor
 	
 	run: ->
 		@spec.update(@code())
-		$.event.trigger "runCode"
+		$.event.trigger "runCode", {filename: @filename}
 	
 	keyboardShortcuts: ->
 		command = (o) => @editor.commands.addCommand o

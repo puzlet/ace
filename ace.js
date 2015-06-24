@@ -726,7 +726,9 @@
 
     Editor.prototype.run = function() {
       this.spec.update(this.code());
-      return $.event.trigger("runCode");
+      return $.event.trigger("runCode", {
+        filename: this.filename
+      });
     };
 
     Editor.prototype.keyboardShortcuts = function() {
