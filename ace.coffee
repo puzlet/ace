@@ -133,7 +133,7 @@ class Ace.Node
 		#setEditorView = false
 		clearTimeout @renderTId if @renderTId
 		@editor.set @resource.content, triggerChange #, setEditorView
-		@renderTId = setTimeout (=> @editor.customRenderer.render()), 1000
+		@renderTId = setTimeout (=> @editor.customRenderer.render()), 100
 
 
 class Ace.EditorNode extends Ace.Node

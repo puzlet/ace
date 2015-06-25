@@ -285,7 +285,7 @@
         return function() {
           return _this.editor.customRenderer.render();
         };
-      })(this)), 1000);
+      })(this)), 100);
     };
 
     return Node;
