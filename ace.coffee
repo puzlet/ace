@@ -356,9 +356,14 @@ class Ace.Editor
 			), 10
 		lines = @code().split("\n")  # ZZZ dup code
 		numLines = lines.length
+		session = @session()
+		c = "ace_light_line_numbers"
 		for line in [1..numLines]
-			@session().addGutterDecoration(line-1, "ace_light_line_numbers") if line<startLine or line>endLine
-	
+			# Remove all first
+			session.removeGutterDecoration(line-1, c)
+		for line in [1..numLines]
+			if line<startLine or line>endLine
+				session.addGutterDecoration(line-1, c)
 	
 	setHeight: (numLines=null)->
 		return if not @editor

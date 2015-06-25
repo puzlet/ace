@@ -558,7 +558,7 @@
     };
 
     Editor.prototype.setViewPort = function() {
-      var endLine, height, line, lines, numLines, startLine, _i, _results;
+      var c, endLine, height, line, lines, numLines, session, startLine, _i, _j, _results;
       if (!this.spec.viewPort) {
         return;
       }
@@ -576,10 +576,15 @@
       }
       lines = this.code().split("\n");
       numLines = lines.length;
-      _results = [];
+      session = this.session();
+      c = "ace_light_line_numbers";
       for (line = _i = 1; 1 <= numLines ? _i <= numLines : _i >= numLines; line = 1 <= numLines ? ++_i : --_i) {
+        session.removeGutterDecoration(line - 1, c);
+      }
+      _results = [];
+      for (line = _j = 1; 1 <= numLines ? _j <= numLines : _j >= numLines; line = 1 <= numLines ? ++_j : --_j) {
         if (line < startLine || line > endLine) {
-          _results.push(this.session().addGutterDecoration(line - 1, "ace_light_line_numbers"));
+          _results.push(session.addGutterDecoration(line - 1, c));
         } else {
           _results.push(void 0);
         }
