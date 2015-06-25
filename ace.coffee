@@ -239,6 +239,8 @@ class Ace.Editor
 		@set @spec.code
 		@setEditable()
 		
+		@session().setTabSize 2
+		
 		@initChangeListeners()
 		@keyboardShortcuts()
 		@onSwipe => @run() #@spec.update(@code())

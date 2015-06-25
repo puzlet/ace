@@ -427,6 +427,7 @@
       this.editor.$blockScrolling = Infinity;
       this.set(this.spec.code);
       this.setEditable();
+      this.session().setTabSize(2);
       this.initChangeListeners();
       this.keyboardShortcuts();
       this.onSwipe((function(_this) {
