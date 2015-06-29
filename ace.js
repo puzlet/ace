@@ -846,6 +846,10 @@
       latex: {
         ext: "tex",
         mode: "latex"
+      },
+      markdown: {
+        ext: "md",
+        mode: "markdown"
       }
     };
 
@@ -896,6 +900,8 @@
         url: "" + Ace.path + "/mode-matlab.js"
       }, {
         url: "" + Ace.path + "/mode-latex.js"
+      }, {
+        url: "" + Ace.path + "/mode-markdown.js"
       }
     ];
 

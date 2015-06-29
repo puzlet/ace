@@ -502,6 +502,7 @@ class Ace.Languages
 		python: {ext: "py", mode: "python"}
 		octave: {ext: "m", mode: "matlab"}
 		latex: {ext: "tex", mode: "latex"}
+		markdown: {ext: "md", mode: "markdown"}
 	
 	@get: (lang) -> Ace.Languages.list[lang]
 	
@@ -531,6 +532,7 @@ class Ace.Resources
 		{url: "#{Ace.path}/mode-python.js"}
 		{url: "#{Ace.path}/mode-matlab.js"}
 		{url: "#{Ace.path}/mode-latex.js"}
+		{url: "#{Ace.path}/mode-markdown.js"}
 	]
 	
 	styles: [
