@@ -574,6 +574,13 @@
             return _this.editor.scrollToLine(startLine - 1);
           };
         })(this)), 10);
+      } else {
+        setTimeout(((function(_this) {
+          return function() {
+            _this.editor.gotoLine(0);
+            return _this.editor.scrollToLine(0);
+          };
+        })(this)), 10);
       }
       lines = this.code().split("\n");
       numLines = lines.length;

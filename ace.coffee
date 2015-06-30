@@ -356,6 +356,11 @@ class Ace.Editor
 				@editor.gotoLine startLine-1
 				@editor.scrollToLine startLine-1
 			), 10
+		else
+			setTimeout (=>
+				@editor.gotoLine 0
+				@editor.scrollToLine 0
+			), 10
 		lines = @code().split("\n")  # ZZZ dup code
 		numLines = lines.length
 		session = @session()
