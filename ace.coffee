@@ -507,7 +507,7 @@ class Ace.Languages
 		python: {ext: "py", mode: "python"}
 		octave: {ext: "m", mode: "matlab"}
 		latex: {ext: "tex", mode: "latex"}
-		markdown: {ext: "md", mode: "markdown"}
+		markdown: {ext: "md", mode: "html"}
 	
 	@get: (lang) -> Ace.Languages.list[lang]
 	

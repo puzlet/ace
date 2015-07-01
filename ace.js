@@ -856,7 +856,7 @@
       },
       markdown: {
         ext: "md",
-        mode: "markdown"
+        mode: "html"
       }
     };
 
