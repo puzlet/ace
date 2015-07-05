@@ -658,11 +658,14 @@ class Ace.CustomRenderer
 		f.render() for f in @functions
 		# Also should look for class="ace_entity ace_name ace_function"
 			
+		strings = @editorContainer.find ".ace_string"
+		@gists = (new CodeNodeGistLink($(s), linkCallback) for s in strings when s.innerHTML.indexOf("gist") is 0)
+		g.render() for g in @gists
 	
 	restoreCode: ->
 		comment.restore() for comment in @comments
 		f.restore() for f in @functions
-		
+		g.restore() for g in @gists
 		
 	mouseUpHandler: ->
 		# Comment link navigation.
@@ -758,6 +761,57 @@ class CodeNodeFunction
 		link = $ "<a>",
 			href: @link.href
 			target: @link.target
+			text: txt
+		@node.empty()
+		content = $ "<div>", css: display: "inline-block"
+		content.append link
+		@node.append content
+		
+	mathJax: ->
+		return unless node = @node[0]
+		MathJax.Hub.Queue(["PreProcess", MathJax.Hub, node])
+		MathJax.Hub.Queue(["Process", MathJax.Hub, node])
+	
+	processLinks: ->
+		links = @node.find "a"
+		return unless links.length
+		for link in links
+			$(link).mousedown (evt) => @linkCallback $(evt.target)
+			
+	restore: ->
+		if @originalText  # ZZZ call @original ?
+			@node.empty()
+			@node.text @originalText
+
+
+class CodeNodeGistLink
+	# Very similar to above.  Have base class?
+	
+	constructor: (@node, @linkCallback) ->
+		console.log "gist", @node
+		
+	render: ->
+		@originalText = @node.text()
+		console.log "orig text", @originalText
+		#wikyOut = Wiky.toHtml(comment)
+		@replaceDiv()
+		@processLinks()
+		
+	replaceDiv: ->
+		#pattern = String.fromCharCode(160)  # needed?
+		#re = new RegExp(pattern, "g")
+		#txt = @originalText.replace(re, " ")
+		txt = @originalText
+		
+		# TODO: This match should be done in filter above.
+		re = /^gist:([a-z0-9_-]+)/
+		match = re.exec txt
+		gistId = match[1]
+		
+		@link = "//google.com"
+		link = $ "<a>",
+			href: "//puzlet.org/blab?gist=#{gistId}" #.href
+			target: "_blank" #@link.target
 			text: txt
 		@node.empty()
 		content = $ "<div>", css: display: "inline-block"
