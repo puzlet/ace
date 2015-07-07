@@ -109,7 +109,7 @@
     };
 
     function ResourceContainers(resource) {
-      var _base, _base1;
+      var changeToEval, hasEval, _base, _base1, _base2;
       this.resource = resource;
       this.url = this.resource.url;
       if (!this.hasDiv()) {
@@ -117,12 +117,23 @@
       }
       this.resource.containers = this;
       this.render();
-      if (typeof (_base = this.resource).setEval === "function") {
-        _base.setEval(this.hasEval());
-      }
-      if (!this.resource.compiled) {
+      hasEval = this.hasEval();
+      changeToEval = hasEval && !this.resource.doEval;
+      if (changeToEval) {
+        if (typeof (_base = this.resource).setEval === "function") {
+          _base.setEval(hasEval);
+        }
+        if (this.resource.mathSpecSet != null) {
+          this.resource.mathSpecSet = false;
+        }
         if (typeof (_base1 = this.resource).compile === "function") {
           _base1.compile();
+        }
+      } else {
+        if (!this.resource.compiled) {
+          if (typeof (_base2 = this.resource).compile === "function") {
+            _base2.compile();
+          }
         }
       }
       $(document).on("preSaveResources", (function(_this) {
@@ -936,7 +947,7 @@
       custom = $("<style>", {
         type: "text/css",
         id: "puzlet_ace_custom_styles",
-        html: ".ace-tm {\n	background: #f4f4f4;;\n}\n.ace-tm .ace_gutter {\n	color: #aaa;\n	background: #f8f8f8;\n}\n.ace_gutter-cell {\n	padding-left: 15px;\n	background: #eee;\n}\n.ace-tm .ace_print_margin {\n	background: #f0f0f0;\n}"
+        html: ".ace-tm {\n  background: #f4f4f4;;\n}\n.ace-tm .ace_gutter {\n  color: #aaa;\n  background: #f8f8f8;\n}\n.ace_gutter-cell {\n  padding-left: 15px;\n  background: #eee;\n}\n.ace-tm .ace_print_margin {\n  background: #f0f0f0;\n}"
       });
       head = document.getElementsByTagName('head')[0];
       return head.appendChild(custom[0]);
