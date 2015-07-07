@@ -109,7 +109,7 @@
     };
 
     function ResourceContainers(resource) {
-      var changeToEval, hasEval, _base, _base1, _base2;
+      var _base, _base1;
       this.resource = resource;
       this.url = this.resource.url;
       if (!this.hasDiv()) {
@@ -117,23 +117,12 @@
       }
       this.resource.containers = this;
       this.render();
-      hasEval = this.hasEval();
-      changeToEval = hasEval && !this.resource.doEval;
-      if (changeToEval) {
-        if (typeof (_base = this.resource).setEval === "function") {
-          _base.setEval(hasEval);
-        }
-        if (this.resource.mathSpecSet != null) {
-          this.resource.mathSpecSet = false;
-        }
+      if (typeof (_base = this.resource).setEval === "function") {
+        _base.setEval(this.hasEval());
+      }
+      if (!this.resource.compiled) {
         if (typeof (_base1 = this.resource).compile === "function") {
           _base1.compile();
-        }
-      } else {
-        if (!this.resource.compiled) {
-          if (typeof (_base2 = this.resource).compile === "function") {
-            _base2.compile();
-          }
         }
       }
       $(document).on("preSaveResources", (function(_this) {

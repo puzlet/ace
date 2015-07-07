@@ -61,16 +61,18 @@ class Ace.ResourceContainers
         # Render any code with an associated editor, or eval box.
         @render()
         # Set to eval mode (rather than regular compile) if editor has associated eval box.
-        hasEval = @hasEval()
-        changeToEval = hasEval and not @resource.doEval
-        if changeToEval
-          # Only for coffee
-          @resource.setEval?(hasEval)
-          @resource.mathSpecSet = false if @resource.mathSpecSet?  # Force setting compiler spec.
-          @resource.compile?()
-        else
-          # Compile, using mathCoffee compiler (if loaded) for coffee node.
-          @resource.compile?() unless @resource.compiled
+        @resource.setEval?(@hasEval())
+        #hasEval = @hasEval()
+        #changeToEval = hasEval and not @resource.doEval
+        # TODO: this should be method for coffee compiler
+        #if changeToEval
+        #  # Only for coffee
+        #  @resource.setEval?(hasEval)
+        #  @resource.mathSpecSet = false if @resource.mathSpecSet?  # Force setting compiler spec.
+        #  @resource.compile?()
+        #else
+        # Compile, using mathCoffee compiler (if loaded) for coffee node.
+        @resource.compile?() unless @resource.compiled
         
         $(document).on "preSaveResources", => @updateResource()  # Event from github.coffee
     
