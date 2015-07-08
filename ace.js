@@ -1006,11 +1006,15 @@
           });
         };
       })(this));
-      this.render();
-      if (typeof this.callback1 === "function") {
-        this.callback1();
-      }
-      return typeof this.callback === "function" ? this.callback() : void 0;
+      return setTimeout(((function(_this) {
+        return function() {
+          _this.render();
+          if (typeof _this.callback1 === "function") {
+            _this.callback1();
+          }
+          return typeof _this.callback === "function" ? _this.callback() : void 0;
+        };
+      })(this)), 1000);
     };
 
     CustomRenderer.prototype.render = function() {

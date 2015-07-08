@@ -647,9 +647,12 @@ class Ace.CustomRenderer
         @render()
         @callback?()
     
-    @render()
-    @callback1?()
-    @callback?()
+    # Hack to ensure rendering
+    setTimeout (=>
+      @render()
+      @callback1?()
+      @callback?()
+    ), 1000
     
   render: ->
     
