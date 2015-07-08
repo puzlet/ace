@@ -1022,6 +1022,7 @@
       if (!$blab.codeDecoration) {
         return;
       }
+      console.log("(proceed with render)", this.node.id);
       commentNodes = this.editorContainer.find(".ace_comment");
       linkCallback = (function(_this) {
         return function(target) {
@@ -1288,12 +1289,11 @@
     function CodeNodeGistLink(node, linkCallback) {
       this.node = node;
       this.linkCallback = linkCallback;
-      console.log("gist", this.node);
+      console.log("$$$$$$$$$$$$$$ gist", this.node);
     }
 
     CodeNodeGistLink.prototype.render = function() {
       this.originalText = this.node.text();
-      console.log("orig text", this.originalText);
       this.replaceDiv();
       return this.processLinks();
     };

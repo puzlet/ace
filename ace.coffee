@@ -659,6 +659,7 @@ class Ace.CustomRenderer
     
     return unless window.MathJax
     return unless $blab.codeDecoration
+    console.log "(proceed with render)", @node.id
     
     commentNodes = @editorContainer.find ".ace_comment"
     linkCallback = (target) => @linkSelected = target
@@ -802,11 +803,11 @@ class CodeNodeGistLink
   # Very similar to above.  Have base class?
   
   constructor: (@node, @linkCallback) ->
-    console.log "gist", @node
+    console.log "$$$$$$$$$$$$$$ gist", @node
     
   render: ->
     @originalText = @node.text()
-    console.log "orig text", @originalText
+    #console.log "orig text", @originalText
     #wikyOut = Wiky.toHtml(comment)
     @replaceDiv()
     @processLinks()
