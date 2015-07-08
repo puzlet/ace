@@ -23,7 +23,6 @@
   $(document).on("mathjaxPreConfig", (function(_this) {
     return function() {
       return window.MathJax.Hub.Register.StartupHook("MathMenu Ready", function() {
-        console.log("%%%%%%%%%%%%%%%%%%%%% MATHJAX READY %%%%%%%%%%%%%%%%%%%%%");
         return mathjaxReady = true;
       });
     };
@@ -95,6 +94,7 @@
         resource = _ref2[_j];
         new Ace.ResourceContainers(resource);
       }
+      console.log("** Ace files loaded");
       return $.event.trigger("aceFilesLoaded");
     };
     return new Ace.Resources(load, postLoad);
@@ -1017,7 +1017,6 @@
         }
         window.MathJax.Hub.Register.StartupHook("MathMenu Ready", (function(_this) {
           return function() {
-            console.log("(((((((((((((((((((RENDER (MathJax MAIN))))))))))))))))))))))");
             _this.render();
             rendered = true;
             return typeof _this.callback === "function" ? _this.callback() : void 0;
@@ -1033,7 +1032,6 @@
             if (rendered) {
               return;
             }
-            console.log("(((((((((((((((((((RENDER (MathJax))))))))))))))))))))))");
             _this.render();
             rendered = true;
             return typeof _this.callback === "function" ? _this.callback() : void 0;
@@ -1045,7 +1043,6 @@
           if (rendered) {
             return;
           }
-          console.log("((((((((((((((((((((RENDER (Timeout)))))))))))))))))))))))");
           _this.render();
           rendered = true;
           if (typeof _this.callback1 === "function") {
@@ -1058,11 +1055,9 @@
 
     CustomRenderer.prototype.render = function() {
       var comment, commentNodes, f, g, i, identifiers, l, linkCallback, node, s, strings, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3, _results;
-      console.log("=============RENDER", this.node.id);
       if (!$blab.codeDecoration) {
         return;
       }
-      console.log("(proceed with render)", this.node.id);
       commentNodes = this.editorContainer.find(".ace_comment");
       linkCallback = (function(_this) {
         return function(target) {
@@ -1101,7 +1096,6 @@
         f.render();
       }
       strings = this.editorContainer.find(".ace_string");
-      console.log("ace strings", strings);
       this.gists = (function() {
         var _k, _len2, _results;
         _results = [];

@@ -6,7 +6,6 @@ $blab?.resources?.on "postload", -> Ace.load($blab.resources)
 mathjaxReady = false
 $(document).on "mathjaxPreConfig", =>
   window.MathJax.Hub.Register.StartupHook "MathMenu Ready", =>
-    console.log "%%%%%%%%%%%%%%%%%%%%% MATHJAX READY %%%%%%%%%%%%%%%%%%%%%"
     mathjaxReady = true
 
 $(document).on "mathjaxPreConfig", =>
@@ -44,6 +43,7 @@ Ace.load = (resources) ->
     
     postLoad = ->
         new Ace.ResourceContainers(resource) for resource in resources.resources
+        console.log "** Ace files loaded"
         $.event.trigger "aceFilesLoaded"
           
     # TODO: Remove @resource.containers = this (below)
@@ -655,7 +655,6 @@ class Ace.CustomRenderer
     if window.MathJax
       @callback1?()
       window.MathJax.Hub.Register.StartupHook "MathMenu Ready", =>
-        console.log "(((((((((((((((((((RENDER (MathJax MAIN))))))))))))))))))))))"
         @render()
         rendered = true
         @callback?()
@@ -664,7 +663,6 @@ class Ace.CustomRenderer
       @callback1?()
       window.MathJax.Hub.Register.StartupHook "MathMenu Ready", =>
         return if rendered
-        console.log "(((((((((((((((((((RENDER (MathJax))))))))))))))))))))))"
         @render()
         rendered = true
         @callback?()
@@ -672,7 +670,6 @@ class Ace.CustomRenderer
     # Hack to ensure rendering
     setTimeout (=>
       return if rendered
-      console.log "((((((((((((((((((((RENDER (Timeout)))))))))))))))))))))))"
       @render()
       rendered = true
       @callback1?()
@@ -681,13 +678,10 @@ class Ace.CustomRenderer
     
   render: ->
     
-    console.log "=============RENDER", @node.id
-    
     #console.log "render", @node.id
     
     #return unless window.MathJax
     return unless $blab.codeDecoration
-    console.log "(proceed with render)", @node.id
     
     commentNodes = @editorContainer.find ".ace_comment"
     linkCallback = (target) => @linkSelected = target
@@ -701,7 +695,6 @@ class Ace.CustomRenderer
     # Also should look for class="ace_entity ace_name ace_function"
       
     strings = @editorContainer.find ".ace_string"
-    console.log "ace strings", strings
     @gists = (new CodeNodeGistLink($(s), linkCallback) for s in strings when s.innerHTML.indexOf("gist") is 0)
     g.render() for g in @gists
   
