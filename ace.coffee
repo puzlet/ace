@@ -648,7 +648,8 @@ class Ace.CustomRenderer
         @callback?()
     
     @render()
-    
+    @callback1?()
+    @callback?()
     
   render: ->
     

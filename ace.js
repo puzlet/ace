@@ -1006,7 +1006,11 @@
           });
         };
       })(this));
-      return this.render();
+      this.render();
+      if (typeof this.callback1 === "function") {
+        this.callback1();
+      }
+      return typeof this.callback === "function" ? this.callback() : void 0;
     };
 
     CustomRenderer.prototype.render = function() {
