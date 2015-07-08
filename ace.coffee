@@ -818,11 +818,19 @@ class CodeNodeGistLink
     match = re.exec txt
     gistId = match[1]
     
+    console.log "GIST RESOURCE", gistId
+    @resource = $blab.resources.find(txt+"/defs.coffee")
+    desc = @resource?.gistData?.description
+    red = /^(.*) \[http:(.*)\]/
+    m = red.exec desc
+    @description = m[1]
+    @owner = @resource?.gistData?.owner
+    
     @link = "//google.com"
     link = $ "<a>",
       href: "//puzlet.org/blab?gist=#{gistId}" #.href
       target: "_blank" #@link.target
-      text: txt
+      text: "#{@description} (#{@owner})" #txt
     @node.empty()
     content = $ "<div>", css: display: "inline-block"
     content.append link
