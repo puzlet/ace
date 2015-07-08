@@ -1076,6 +1076,9 @@
 
     CustomRenderer.prototype.restoreCode = function() {
       var comment, f, g, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3, _results;
+      if (!(this.comments && this.functions && this.gists)) {
+        return;
+      }
       _ref1 = this.comments;
       for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
         comment = _ref1[_i];
@@ -1295,7 +1298,6 @@
       re = /^gist:([a-z0-9_-]+)/;
       match = re.exec(txt);
       gistId = match[1];
-      console.log("GIST RESOURCE", gistId);
       this.resource = $blab.resources.find(txt + "/defs.coffee");
       desc = (_ref1 = this.resource) != null ? (_ref2 = _ref1.gistData) != null ? _ref2.description : void 0 : void 0;
       red = /^(.*) \[http:(.*)\]/;

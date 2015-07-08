@@ -673,6 +673,7 @@ class Ace.CustomRenderer
     g.render() for g in @gists
   
   restoreCode: ->
+    return unless @comments and @functions and @gists
     comment.restore() for comment in @comments
     f.restore() for f in @functions
     g.restore() for g in @gists
@@ -818,7 +819,7 @@ class CodeNodeGistLink
     match = re.exec txt
     gistId = match[1]
     
-    console.log "GIST RESOURCE", gistId
+    #console.log "GIST RESOURCE", gistId
     @resource = $blab.resources.find(txt+"/defs.coffee")
     desc = @resource?.gistData?.description
     red = /^(.*) \[http:(.*)\]/
