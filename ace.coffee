@@ -3,6 +3,15 @@ window.$Ace = Ace
 console.log "Ace module"
 $blab?.resources?.on "postload", -> Ace.load($blab.resources)
 
+mathjaxReady = false
+$(document).on "mathjaxPreConfig", =>
+  window.MathJax.Hub.Register.StartupHook "MathMenu Ready", =>
+    console.log "%%%%%%%%%%%%%%%%%%%%% MATHJAX READY %%%%%%%%%%%%%%%%%%%%%"
+    mathjaxReady = true
+
+$(document).on "mathjaxPreConfig", =>
+
+
 Ace.currentCoffeeResource = null  # Set by preCompileCoffee event handler (below)
 
 Ace.evalContainer = (resource = Ace.currentCoffeeResource) ->
@@ -642,10 +651,20 @@ class Ace.CustomRenderer
     #@commentTest commentNodes
     
     rendered = false
+    
+    if window.MathJax
+      @callback1?()
+      window.MathJax.Hub.Register.StartupHook "MathMenu Ready", =>
+        console.log "(((((((((((((((((((RENDER (MathJax MAIN))))))))))))))))))))))"
+        @render()
+        rendered = true
+        @callback?()
+    
     $(document).on "mathjaxPreConfig", =>
       @callback1?()
       window.MathJax.Hub.Register.StartupHook "MathMenu Ready", =>
         return if rendered
+        console.log "(((((((((((((((((((RENDER (MathJax))))))))))))))))))))))"
         @render()
         rendered = true
         @callback?()
@@ -653,11 +672,12 @@ class Ace.CustomRenderer
     # Hack to ensure rendering
     setTimeout (=>
       return if rendered
+      console.log "((((((((((((((((((((RENDER (Timeout)))))))))))))))))))))))"
       @render()
       rendered = true
       @callback1?()
       @callback?()
-    ), 1000
+    ), 8000
     
   render: ->
     
@@ -665,7 +685,7 @@ class Ace.CustomRenderer
     
     #console.log "render", @node.id
     
-    return unless window.MathJax
+    #return unless window.MathJax
     return unless $blab.codeDecoration
     console.log "(proceed with render)", @node.id
     
@@ -750,6 +770,7 @@ class CodeNodeComment
     @node.append content
     
   mathJax: ->
+    return unless window.MathJax
     return unless node = @node[0]
     MathJax.Hub.Queue(["PreProcess", MathJax.Hub, node])
     MathJax.Hub.Queue(["Process", MathJax.Hub, node])
@@ -792,6 +813,7 @@ class CodeNodeFunction
     @node.append content
     
   mathJax: ->
+    return unless window.MathJax
     return unless node = @node[0]
     MathJax.Hub.Queue(["PreProcess", MathJax.Hub, node])
     MathJax.Hub.Queue(["Process", MathJax.Hub, node])
@@ -832,9 +854,9 @@ class CodeNodeGistLink
     match = re.exec txt
     gistId = match[1]
     
-    #console.log "GIST RESOURCE", gistId
     @resource = $blab.resources.find(txt+"/defs.coffee")
     desc = @resource?.gistData?.description
+    console.log "$$$$$$$$$$$$$$$$$$ GIST RESOURCE", gistId, desc
     red = /^(.*) \[http:(.*)\]/
     m = red.exec desc
     @description = m[1]
@@ -849,11 +871,12 @@ class CodeNodeGistLink
     content = $ "<div>", css: display: "inline-block"
     content.append link
     @node.append content
+    console.log "APPEND", "#{@description} (#{@owner})", content, @node
     
-  mathJax: ->
-    return unless node = @node[0]
-    MathJax.Hub.Queue(["PreProcess", MathJax.Hub, node])
-    MathJax.Hub.Queue(["Process", MathJax.Hub, node])
+  #mathJax: ->
+  #  return unless node = @node[0]
+  #  MathJax.Hub.Queue(["PreProcess", MathJax.Hub, node])
+  #  MathJax.Hub.Queue(["Process", MathJax.Hub, node])
   
   processLinks: ->
     links = @node.find "a"
@@ -862,6 +885,7 @@ class CodeNodeGistLink
       $(link).mousedown (evt) => @linkCallback $(evt.target)
       
   restore: ->
+    console.log "$$$$$$$$$$$$$$$$$$$$ GIST LINK RESTORE"
     if @originalText  # ZZZ call @original ?
       @node.empty()
       @node.text @originalText
