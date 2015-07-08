@@ -995,7 +995,7 @@
           return _this.mouseUpHandler();
         };
       })(this));
-      return $(document).on("mathjaxPreConfig", (function(_this) {
+      $(document).on("mathjaxPreConfig", (function(_this) {
         return function() {
           if (typeof _this.callback1 === "function") {
             _this.callback1();
@@ -1006,10 +1006,12 @@
           });
         };
       })(this));
+      return this.render();
     };
 
     CustomRenderer.prototype.render = function() {
       var comment, commentNodes, f, g, i, identifiers, l, linkCallback, node, s, strings, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3, _results;
+      console.log("=============RENDER");
       if (!window.MathJax) {
         return;
       }

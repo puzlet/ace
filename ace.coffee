@@ -647,10 +647,12 @@ class Ace.CustomRenderer
         @render()
         @callback?()
     
-    #@render()
+    @render()
     
     
   render: ->
+    
+    console.log "=============RENDER"
     
     #console.log "render", @node.id
     
