@@ -961,7 +961,7 @@
     }
 
     CustomRenderer.prototype.customRendering = function() {
-      var onBlur, onFocus;
+      var onBlur, onFocus, rendered;
       this.linkSelected = false;
       this.comments = [];
       this.functions = [];
@@ -995,20 +995,29 @@
           return _this.mouseUpHandler();
         };
       })(this));
+      rendered = false;
       $(document).on("mathjaxPreConfig", (function(_this) {
         return function() {
           if (typeof _this.callback1 === "function") {
             _this.callback1();
           }
           return window.MathJax.Hub.Register.StartupHook("MathMenu Ready", function() {
+            if (rendered) {
+              return;
+            }
             _this.render();
+            rendered = true;
             return typeof _this.callback === "function" ? _this.callback() : void 0;
           });
         };
       })(this));
       return setTimeout(((function(_this) {
         return function() {
+          if (rendered) {
+            return;
+          }
           _this.render();
+          rendered = true;
           if (typeof _this.callback1 === "function") {
             _this.callback1();
           }

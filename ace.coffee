@@ -641,15 +641,20 @@ class Ace.CustomRenderer
     #commentNodes = @editorContainer.find ".ace_comment"
     #@commentTest commentNodes
     
+    rendered = false
     $(document).on "mathjaxPreConfig", =>
       @callback1?()
       window.MathJax.Hub.Register.StartupHook "MathMenu Ready", =>
+        return if rendered
         @render()
+        rendered = true
         @callback?()
     
     # Hack to ensure rendering
     setTimeout (=>
+      return if rendered
       @render()
+      rendered = true
       @callback1?()
       @callback?()
     ), 1000
