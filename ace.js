@@ -1061,6 +1061,7 @@
         f.render();
       }
       strings = this.editorContainer.find(".ace_string");
+      console.log("ace strings", strings);
       this.gists = (function() {
         var _k, _len2, _results;
         _results = [];

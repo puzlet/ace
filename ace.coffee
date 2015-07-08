@@ -673,6 +673,7 @@ class Ace.CustomRenderer
     # Also should look for class="ace_entity ace_name ace_function"
       
     strings = @editorContainer.find ".ace_string"
+    console.log "ace strings", strings
     @gists = (new CodeNodeGistLink($(s), linkCallback) for s in strings when s.innerHTML.indexOf("gist") is 0)
     g.render() for g in @gists
   
