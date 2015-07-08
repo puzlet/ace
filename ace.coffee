@@ -652,7 +652,7 @@ class Ace.CustomRenderer
     
   render: ->
     
-    console.log "=============RENDER"
+    console.log "=============RENDER", @node.id
     
     #console.log "render", @node.id
     
