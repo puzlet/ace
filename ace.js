@@ -1340,23 +1340,26 @@
     };
 
     CodeNodeGistLink.prototype.replaceDiv = function() {
-      var content, desc, gistId, link, m, match, re, red, txt, _ref1, _ref2, _ref3, _ref4;
+      var content, desc, gistId, linkGist, linkOwner, m, match, re, red, txt, _ref1, _ref2, _ref3, _ref4;
       txt = this.originalText;
       re = /^gist:([a-z0-9_-]+)/;
       match = re.exec(txt);
       gistId = match[1];
       this.resource = $blab.resources.find(txt + "/defs.coffee");
       desc = (_ref1 = this.resource) != null ? (_ref2 = _ref1.gistData) != null ? _ref2.description : void 0 : void 0;
-      console.log("$$$$$$$$$$$$$$$$$$ GIST RESOURCE", gistId, desc);
       red = /^(.*) \[http:(.*)\]/;
       m = red.exec(desc);
       this.description = m[1];
       this.owner = (_ref3 = this.resource) != null ? (_ref4 = _ref3.gistData) != null ? _ref4.owner : void 0 : void 0;
-      this.link = "//google.com";
-      link = $("<a>", {
+      linkGist = $("<a>", {
         href: "//puzlet.org/blab?gist=" + gistId,
         target: "_blank",
-        text: "" + this.description + " (" + this.owner + ")"
+        text: "" + this.description
+      });
+      linkOwner = $("<a>", {
+        href: "//gist.github.com/" + this.owner,
+        target: "_blank",
+        text: "@" + this.owner
       });
       this.node.empty();
       content = $("<div>", {
@@ -1364,9 +1367,8 @@
           display: "inline-block"
         }
       });
-      content.append(link);
-      this.node.append(content);
-      return console.log("APPEND", "" + this.description + " (" + this.owner + ")", content, this.node);
+      content.append(linkGist).append(" ").append(linkOwner);
+      return this.node.append(content);
     };
 
     CodeNodeGistLink.prototype.processLinks = function() {

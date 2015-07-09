@@ -849,22 +849,24 @@ class CodeNodeGistLink
     
     @resource = $blab.resources.find(txt+"/defs.coffee")
     desc = @resource?.gistData?.description
-    console.log "$$$$$$$$$$$$$$$$$$ GIST RESOURCE", gistId, desc
     red = /^(.*) \[http:(.*)\]/
     m = red.exec desc
     @description = m[1]
     @owner = @resource?.gistData?.owner
     
-    @link = "//google.com"
-    link = $ "<a>",
-      href: "//puzlet.org/blab?gist=#{gistId}" #.href
-      target: "_blank" #@link.target
-      text: "#{@description} (#{@owner})" #txt
+    linkGist = $ "<a>",
+      href: "//puzlet.org/blab?gist=#{gistId}"
+      target: "_blank"
+      text: "#{@description}"
+    linkOwner = $ "<a>",
+      href: "//gist.github.com/#{@owner}"
+      target: "_blank"
+      text: "@#{@owner}"
     @node.empty()
     content = $ "<div>", css: display: "inline-block"
-    content.append link
+    content.append(linkGist).append(" ").append(linkOwner)
     @node.append content
-    console.log "APPEND", "#{@description} (#{@owner})", content, @node
+    #console.log "APPEND", "#{@description} (#{@owner})", content, @node
     
   #mathJax: ->
   #  return unless node = @node[0]
