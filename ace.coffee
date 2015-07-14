@@ -427,6 +427,7 @@ class Ace.Editor
   
   
   set: (code, triggerChange=true, setEditorView=true) ->
+    return unless code
     @enableChangeAction = false unless triggerChange
     # ZZZ or setCode
     return unless @editor

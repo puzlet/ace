@@ -682,6 +682,9 @@
       if (setEditorView == null) {
         setEditorView = true;
       }
+      if (!code) {
+        return;
+      }
       if (!triggerChange) {
         this.enableChangeAction = false;
       }
