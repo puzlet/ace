@@ -901,7 +901,7 @@
 
   })();
 
-  Ace.path = "http://ajaxorg.github.io/ace-builds/src-min-noconflict";
+  Ace.path = "http://ajaxorg.github.io/ace-builds/src-min";
 
   Ace.Resources = (function() {
     Resources.prototype.main = [
