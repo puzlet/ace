@@ -857,7 +857,7 @@ class CodeNodeGistLink
     @owner = @resource?.gistData?.owner
     
     linkGist = $ "<a>",
-      href: "//puzlet.org/blab?gist=#{gistId}"
+      href: "//puzlet.org/blab?#{gistId}"
       target: "_blank"
       text: "#{@description}"
     linkOwner = $ "<a>",
