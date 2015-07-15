@@ -1355,7 +1355,7 @@
       this.description = m[1];
       this.owner = (_ref3 = this.resource) != null ? (_ref4 = _ref3.gistData) != null ? _ref4.owner : void 0 : void 0;
       linkGist = $("<a>", {
-        href: "//puzlet.org/blab?" + gistId,
+        href: "//blabr.io?" + gistId,
         target: "_blank",
         text: "" + this.description
       });
