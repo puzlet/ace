@@ -1333,7 +1333,6 @@
     function CodeNodeGistLink(node, linkCallback) {
       this.node = node;
       this.linkCallback = linkCallback;
-      console.log("$$$$$$$$$$$$$$ gist", this.node);
     }
 
     CodeNodeGistLink.prototype.render = function() {
@@ -1393,7 +1392,6 @@
     };
 
     CodeNodeGistLink.prototype.restore = function() {
-      console.log("$$$$$$$$$$$$$$$$$$$$ GIST LINK RESTORE");
       if (this.originalText) {
         this.node.empty();
         return this.node.text(this.originalText);

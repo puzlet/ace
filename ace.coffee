@@ -829,7 +829,7 @@ class CodeNodeGistLink
   # Very similar to above.  Have base class?
   
   constructor: (@node, @linkCallback) ->
-    console.log "$$$$$$$$$$$$$$ gist", @node
+    #console.log "$$$$$$$$$$$$$$ gist", @node
     
   render: ->
     @originalText = @node.text()
@@ -882,7 +882,7 @@ class CodeNodeGistLink
       $(link).mousedown (evt) => @linkCallback $(evt.target)
       
   restore: ->
-    console.log "$$$$$$$$$$$$$$$$$$$$ GIST LINK RESTORE"
+    #console.log "$$$$$$$$$$$$$$$$$$$$ GIST LINK RESTORE"
     if @originalText  # ZZZ call @original ?
       @node.empty()
       @node.text @originalText
