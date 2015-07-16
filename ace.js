@@ -94,7 +94,6 @@
         resource = _ref2[_j];
         new Ace.ResourceContainers(resource);
       }
-      console.log("** Ace files loaded");
       return $.event.trigger("aceFilesLoaded");
     };
     return new Ace.Resources(load, postLoad);
