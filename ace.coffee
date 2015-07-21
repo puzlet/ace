@@ -425,7 +425,6 @@ class Ace.Editor
   code: ->
     @session().getValue()
   
-  
   set: (code, triggerChange=true, setEditorView=true) ->
     return unless code
     @enableChangeAction = false unless triggerChange
