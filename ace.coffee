@@ -640,7 +640,7 @@ class Ace.CustomRenderer
       @editor.setHighlightActiveLine false
       @render()
       @inFocus = false
-      #onBlur.call @editor  # Why is this omitted?
+      onBlur.call @editor  # This this omitted - any reason?
     
     # Comment link navigation etc.
     @editor.on "mouseup", (aceEvent) => @mouseUpHandler()

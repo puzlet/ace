@@ -1004,7 +1004,8 @@
           _this.renderer.hideCursor();
           _this.editor.setHighlightActiveLine(false);
           _this.render();
-          return _this.inFocus = false;
+          _this.inFocus = false;
+          return onBlur.call(_this.editor);
         };
       })(this);
       this.editor.on("mouseup", (function(_this) {
