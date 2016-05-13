@@ -10,10 +10,14 @@
 
   console.log("Ace module");
 
+  Ace.autoload = true;
+
   if (typeof $blab !== "undefined" && $blab !== null) {
     if ((_ref = $blab.resources) != null) {
       _ref.on("postload", function() {
-        return Ace.load($blab.resources);
+        if (Ace.autoload) {
+          return Ace.load($blab.resources);
+        }
       });
     }
   }

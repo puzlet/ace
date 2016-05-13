@@ -1,7 +1,9 @@
 Ace = {}
 window.$Ace = Ace
 console.log "Ace module"
-$blab?.resources?.on "postload", -> Ace.load($blab.resources)
+Ace.autoload = true
+$blab?.resources?.on "postload", ->
+  Ace.load($blab.resources) if Ace.autoload
 
 mathjaxReady = false
 $(document).on "mathjaxPreConfig", =>
@@ -18,7 +20,7 @@ Ace.evalContainer = (resource = Ace.currentCoffeeResource) ->
   resource: resource
   container: resource?.containers?.getEvalContainer()
   find: (str) -> resource?.compiler?.findStr? str
-  
+
 Ace.evalRemove = (sel, resource = Ace.currentCoffeeResource) ->
   resource?.containers?.evalRemove? sel
 
@@ -224,6 +226,7 @@ class Ace.EvalNode extends Ace.Node
     #resultStr = @resource.result?.join("\n")
     #console.log "************* ACE resource", @resource
     @editor.set @resource.resultStr
+
 
 class Ace.Editor
   
